@@ -1,4 +1,10 @@
 .wrapper {
+  // tạo ra biến trong css và bởi vì class wrapper ôm các class bên dưới nên các class bên dưới cũng sử dụng đc biến
+  --search-border-radius: 92px;
+  --search-height: 46px;
+  --search-top-spacer: 9px;
+  --search-button-width: 52px;
+
   height: var(--default-layout-header-height);
   box-shadow: 0px 1px 1px rgb(0 0 0 / 12%);
   display: flex;
@@ -9,4 +15,76 @@
 .inner {
   height: 100%;
   width: var(--default-layout-header-width);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+}
+
+.search {
+  position: relative;
+  background: rgba(22, 24, 35, 0.06);
+  width: 361px;
+  height: var(--search-height);
+  display: flex;
+  border-radius: var(--search-border-radius);
+  padding-left: 16px;
+  border: 1.5px solid transparent;
+
+  input {
+    flex: 1;
+    color: var(--black);
+    font-size: 1.6rem;
+    background-color: transparent;
+    height: 100%;
+  }
+
+  // khi placeholder biến mất , có value trong input , kính lúp tìm kiếm sẽ đổi màu
+  input:not(:placeholder-shown) ~ .search-btn {
+    color: rgba(22, 24, 35, 0.75);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: var(--search-top-spacer);
+    right: var(--search-button-width);
+    // tính toán ra chiều cao bằng biến của css
+    height: calc(var(--search-height) - var(--search-top-spacer) * 2);
+    width: 1px;
+    background-color: rgba(22, 24, 35, 0.12);
+  }
+
+  &:focus-within {
+    border: 1.5px solid rgba(22, 24, 35, 0.4);
+  }
+}
+
+.clear,
+.loading {
+  position: absolute;
+  // căn giữ icon bằng top 50% và transform: translateY
+  right: calc(var(--search-button-width) + 16px);
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(22, 24, 35, 0.34);
+}
+
+.search-btn {
+  width: var(--search-button-width);
+  height: 100%;
+  border-top-right-radius: var(--search-border-radius);
+  border-bottom-right-radius: var(--search-border-radius);
+  font-size: 1.8rem;
+  color: rgba(22, 24, 35, 0.34);
+
+  &:hover {
+    background: rgba(22, 24, 35, 0.03);
+    cursor: pointer;
+  }
+  &:active {
+    background: rgba(22, 24, 35, 0.06);
+  }
 }
