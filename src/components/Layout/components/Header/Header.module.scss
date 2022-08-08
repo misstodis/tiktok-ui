@@ -23,6 +23,7 @@
 .logo {
 }
 
+
 .search {
   position: relative;
   background: rgba(22, 24, 35, 0.06);
@@ -60,6 +61,16 @@
   &:focus-within {
     border: 1.5px solid rgba(22, 24, 35, 0.4);
   }
+}
+.search-result , search-result{
+  width: 361px;
+}
+
+.search-title{
+  font-weight: 600;
+  color: rgba(22, 24, 35, 0.5);
+  font-size: 1.4rem;
+  padding: 5px 12px;
 }
 
 .clear,
