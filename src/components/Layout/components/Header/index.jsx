@@ -16,7 +16,27 @@ const cx = classNames.bind(styles);
 const MENU_ITEMS = [
   {
     icon: <FontAwesomeIcon icon={faEarthAsia} />,
-    title: "English"
+    title: "English",
+    children: {
+      title: "Language",
+      data: [
+        {
+          type: "language",
+          code: 'en',
+          title: 'English'
+        },
+        {
+          type: "language",
+          code: 'vi',
+          title: 'Tiếng việt',
+        },
+        {
+          type: "language",
+          code: 'nl',
+          title: 'Nederlands'
+        },
+      ]
+    }
   },
   {
     icon: <FontAwesomeIcon icon={faCircleQuestion} />,
@@ -31,6 +51,21 @@ const MENU_ITEMS = [
 ]
 function Header() {
   const [searchResult, setSearchResult] = useState([]);
+
+  /**
+   * tạo ra function để kiểm tra khi menu có nhiều cấp 
+   * thì mình phải biết mình đang ấn vào item của menu cấp nào
+   * bằng việc dùng switchcase và kiểm tra type truyền trong element 
+   */
+  const handleMenuChange = (menuItem) => {
+    switch (menuItem.type) {
+      case "language":
+        console.log("language====>", menuItem);
+        break;
+      default:
+        break;
+    }
+  }
 
   return (
     <header className={cx('wrapper')}>
@@ -74,6 +109,7 @@ function Header() {
           <Menu
             // truyền array MENU_ITEMS tự tạo bên trên vào cho component Menu thông qua props
             items={MENU_ITEMS}
+            onChange={handleMenuChange}
           >
             <button className={cx('more-btn')}>
               <FontAwesomeIcon icon={faEllipsisVertical} />
