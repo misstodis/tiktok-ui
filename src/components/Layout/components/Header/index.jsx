@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark, faSpinner, faMagnifyingGlass, faSignIn } from '@fortawesome/free-solid-svg-icons';
+import { faCircleXmark, faSpinner, faMagnifyingGlass, faSignIn, faEllipsisVertical, faEarthAsia, faCircle, faCircleQuestion, faKeyboard } from '@fortawesome/free-solid-svg-icons';
 import Tippy from '@tippyjs/react/headless';
 import { useEffect, useState } from 'react';
 
@@ -9,8 +9,26 @@ import images from '~/asset/images'; //import logo
 import styles from './Header.module.scss';
 import AccountItem from '~/components/AccountItem';
 import Button from '~/components/Button';
+import Menu from '~/components/Popper/Menu';
 
 const cx = classNames.bind(styles);
+// tạo ra 1 arry menu cho dấu 3 chấm ở header khi hover vào
+const MENU_ITEMS = [
+  {
+    icon: <FontAwesomeIcon icon={faEarthAsia} />,
+    title: "English"
+  },
+  {
+    icon: <FontAwesomeIcon icon={faCircleQuestion} />,
+    title: "Feedback and help",
+    to: "/feedback"
+  },
+  {
+    icon: <FontAwesomeIcon icon={faKeyboard} />,
+    title: "Key board shortcut ",
+    to: ""
+  },
+]
 function Header() {
   const [searchResult, setSearchResult] = useState([]);
 
@@ -53,6 +71,14 @@ function Header() {
         <div className={cx('actions')}>
           <Button text>Upload</Button>
           <Button primary>Log in</Button>
+          <Menu
+            // truyền array MENU_ITEMS tự tạo bên trên vào cho component Menu thông qua props
+            items={MENU_ITEMS}
+          >
+            <button className={cx('more-btn')}>
+              <FontAwesomeIcon icon={faEllipsisVertical} />
+            </button>
+          </Menu>
         </div>
       </div>
     </header>
