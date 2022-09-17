@@ -20,7 +20,7 @@ function Menu({ children, items = [] }) {
         <Tippy
             //interactive là 1 props của tippy và nó cho phép người dùng tương tác khi element hiện ra
             interactive
-            visible
+            delay={[0, 800]}
             placement="bottom-end"
             render={(attrs) => (
                 <div className={cx('menu-list')} tabIndex="-1" {...attrs}>
