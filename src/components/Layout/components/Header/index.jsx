@@ -1,8 +1,12 @@
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark, faSpinner, faMagnifyingGlass, faSignIn, faEllipsisVertical, faEarthAsia, faCircle, faCircleQuestion, faKeyboard } from '@fortawesome/free-solid-svg-icons';
-import Tippy from '@tippyjs/react/headless';
+import { faCircleXmark, faSpinner, faMagnifyingGlass, faEllipsisVertical, faEarthAsia, faCircleQuestion, faKeyboard, faCloudUpload, faUser, faCoins, faGear, faSignOut } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
+import Tippy from '@tippyjs/react';
+import HeadlessTippy from '@tippyjs/react/headless';
+import 'tippy.js/dist/tippy.css';
 import { useEffect, useState } from 'react';
+
 
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import images from '~/asset/images'; //import logo
@@ -67,6 +71,34 @@ function Header() {
     }
   }
 
+  const currentUser = true;
+
+  // tạo ra menu cho user khi đăng nhập
+  const userMenu = [
+    {
+      icon: <FontAwesomeIcon icon={faUser} />,
+      title: "View Profile",
+      to: "/@duc"
+    },
+    {
+      icon: <FontAwesomeIcon icon={faCoins} />,
+      title: "Get coins",
+      to: "/coin"
+    },
+    {
+      icon: <FontAwesomeIcon icon={faGear} />,
+      title: "Feedback and help",
+      to: "/settings"
+    },
+    ...MENU_ITEMS,
+    {
+      icon: <FontAwesomeIcon icon={faSignOut} />,
+      title: "Log out",
+      to: "/settings",
+      separate: true,
+    },
+  ]
+
   return (
     <header className={cx('wrapper')}>
       <div className={cx('inner')}>
@@ -74,7 +106,7 @@ function Header() {
           <img src={images.logo} alt="logo" />
         </div>
         {/* tippy là một thư viện cài ngoài vào, tippy sử dụng để show kết quả tìm kiếm trong ô input tìm kếm */}
-        <Tippy
+        <HeadlessTippy
           //interactive là 1 props của tippy và nó cho phép người dùng tương tác khi element hiện ra
           interactive={true}
           //sẽ hiện kết quả tìm kiếm nếu có kết quả trả về trong mảng
@@ -102,22 +134,43 @@ function Header() {
               <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
           </div>
-        </Tippy>
+        </HeadlessTippy>
+
         <div className={cx('actions')}>
-          <Button text>Upload</Button>
-          <Button primary>Log in</Button>
-          <Menu
-            // truyền array MENU_ITEMS tự tạo bên trên vào cho component Menu thông qua props
-            items={MENU_ITEMS}
-            onChange={handleMenuChange}
-          >
-            <button className={cx('more-btn')}>
-              <FontAwesomeIcon icon={faEllipsisVertical} />
-            </button>
+          {/* check inlogged user */}
+          {currentUser ? (
+            <>
+              <Tippy content="Upload video" placement='bottom' delay={[0, 200]}>
+                <button className={cx('action-btn')}>
+                  <FontAwesomeIcon icon={faCloudUpload} />
+                </button>
+              </Tippy>
+            </>
+          ) : (
+            <>
+              <Button text>Upload</Button>
+              <Button primary>Log in</Button>
+            </>
+          )}
+
+          {/* truyền array MENU_ITEMS tự tạo bên trên vào cho component Menu thông qua props  */}
+          {/* nếu như user đã đăng nhập sẽ hiện menu khác */}
+          <Menu items={currentUser ? userMenu : MENU_ITEMS} onChange={handleMenuChange} >
+            {currentUser ? (
+              <img
+                src='https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/3070cea346f0a3def6e47fd0e4e0d78f~c5_100x100.jpeg?x-expires=1663675200&x-signature=lQidvYik52aHwzDHbvDeieLzkaE%3D'
+                className={cx('user-avatar')}
+                alt="Nguyen Duc Khoa"
+              />
+            ) : (
+              <button className={cx('more-btn')}>
+                <FontAwesomeIcon icon={faEllipsisVertical} />
+              </button>
+            )}
           </Menu>
         </div>
-      </div>
-    </header>
+      </div >
+    </header >
   );
 }
 

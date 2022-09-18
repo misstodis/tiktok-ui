@@ -45,10 +45,12 @@ function Menu({ children, items = [], onChange = defaultFn }) {
             }} />
         })
     }
+
     return (
         <Tippy
             //interactive là 1 props của tippy và nó cho phép người dùng tương tác khi element hiện ra
-            visible
+            // visible
+            offset={[12, 8]}
             interactive
             delay={[0, 800]}
             placement="bottom-end"
@@ -70,6 +72,13 @@ function Menu({ children, items = [], onChange = defaultFn }) {
                     </PopperWrapper>
                 </div>
             )}
+            /**
+             * onHide là 1 props của tippy và nó sẽ hoạt động khi tippy bị tắt đi
+             * ở đây mình sử dụng cho menu để khi hover ra khỏi menu thì nó sẽ quay lại cái menu đầu tiên
+             */
+            onHide={() => {
+                setHistory(prev => prev.slice(0, 1));
+            }}
         >
             {children}
         </Tippy>
